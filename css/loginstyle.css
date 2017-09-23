@@ -1,0 +1,41 @@
+body {
+    width: 100%;
+    height: 100%;
+    min-width: 1280px;
+    background: url("back.jpg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+#login-page{
+    background: #212121;
+    color: white;
+    width: 320px;
+}
+
+.card-panel {
+    background-color: transparent;
+}
+
+.login-form {
+    text-align: center;
+    margin: 0 auto;
+}
+
+ /* label color */
+
+   /* label focus color */
+input[type=text]:focus + label {
+     color: red;
+   }
+   /* label underline focus color */
+input[type=text]:focus {
+     border-bottom: 1px solid red;
+     box-shadow: 0 1px 0 0 red;
+   }
+
+   /* icon prefix focus color */
+   .input-field .prefix.active {
+     color: #000;
+   }
