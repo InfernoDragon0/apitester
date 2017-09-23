@@ -24,7 +24,7 @@ function doLogin() {
 		contactno = fakeData.contact_No;
 		Materialize.toast('2FA One time password has been sent to your phone number, please verify.', 4000)
 		$('#modal1').modal('open');
-		call2FA();
+		//call2FA();
 	});
 }
 
@@ -62,7 +62,10 @@ function verify2FA() {
 		response_type: "code",
 		redirect_uri: "http://localhost:7575/"
 	}, function (err, res) {
-		console.log(err);
+		if (err) {
+		Materialize.toast('Error authenticating: Wrong Pin?', 4000)
+			return;
+		}
 		console.log(res);
 		// handle errors or continue
 	}
