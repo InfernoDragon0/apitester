@@ -12,7 +12,7 @@ function fetchToken() {
 
     var button = document.querySelector('#submit-button');
 
-    braintree.dropin.create({
+    /* braintree.dropin.create({
       authorization: 'CLIENT_AUTHORIZATION',
       container: '#dropin-container'
     }, function (createErr, instance) {
@@ -21,6 +21,6 @@ function fetchToken() {
           // Submit payload.nonce to your server
         });
       });
-    });
+    }); */
 
   });
