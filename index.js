@@ -63,7 +63,7 @@ app.get('/register', function (req, res) { //base page
 
 app.post('/payment', function (req, res) { //base page
     //res.send("payment values are " + req.body.amount + " and " + req.body.nonce)
-    requestwrite.sendPayment()
+    requestwrite.sendPayment(req,res)
 });
 
 app.use(function (req, res, next) {
