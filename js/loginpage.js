@@ -20,6 +20,7 @@ function retrieveUser() {
 		Materialize.toast('2FA One time password has been sent to your phone number, please verify.', 4000)
 		$('#modal1').modal('open');
 		//call2FA();
+		doLogin();
 	});
 }
 
