@@ -25,10 +25,14 @@ function getHistory(res, page, clientoken) {
             return;
         }
         console.log(body)
+        console.log(body)
+        // body=JSON.parse(body)
+        // body=JSON.stringify(body)
+        console.log('Body :'+ body)
         res.render(page,
             {
                 clientoken : clientoken,
-                history: body
+                historyBody: body
             });
     });
 }

@@ -1,7 +1,7 @@
 const self = "http://localhost:7575"
 const payserver = "http://localhost:5000"
 
-
+init()
 function openTopupModal() {
   $('#topupmodal').modal('open');
 }
@@ -37,10 +37,18 @@ function fetchToken() {
 
 }
 
-$(document).ready(function () {
+function init() {
   // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
   $('.modal').modal();
+  console.log("hahaha"+historyBody)
+  console.log(JSON.stringify(historyBody))
+  
+  
+  historyBody=JSON.parse(historyBody.replace(/&#34;/g, '"'))
+  console.log("hahaha2"+historyBody)
+  
   writeHistory();
+  
   var button = document.querySelector('#topupbutton');
   braintree.dropin.create({
     authorization: clientoken,
@@ -76,12 +84,12 @@ $(document).ready(function () {
     });
   });
 
-});
+};
 
 function writeHistory() {
   const DashboardRow = () => (
     <tbody>
-      {history.map((data, i) => (
+      {historyBody.map((data, i) => (
         <tr key={i}>
           <td className="transactionid">{data.transactionId}</td>
           <td>{data.timestamp}</td>
