@@ -2,7 +2,7 @@ const self = "http://localhost:7575"
 const payserver = "http://localhost:5000"
 
 $('.modal').modal();
-
+$('#customerid').html('Your Customer ID is ' + userid)
 
 function openTopupModal() {
     $('#topupmodal').modal('open');

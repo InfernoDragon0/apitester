@@ -1,4 +1,4 @@
-const walletServer = "http://localhost:5001"
+const walletServer = "http://localhost:5000"
 const self = "http://localhost:7575"
 var webAuth = new auth0.WebAuth({
 	domain: 'mushroom.auth0.com',
@@ -13,16 +13,10 @@ var fakeData = {
 }
 
 function retrieveUser() {
-	$.post(walletServer + "/retrieveuserid", { clientid: document.getElementById("username").value, function (data) {
-		if (data.includes("Invalid")) {
-		Materialize.toast('Error: ' + data, 4000)
-		}
-		else {
-			alert(data)
-		}
-
+	$.post(walletServer + "/retrieveuserid", { clientid: document.getElementById("username").value}, function (data) {
+		console.log(data)
 		//FAKE DATA REMOVE WHEN DONE
-		contactno = fakeData.contact_No;
+		contactno = data.contact_No;
 		Materialize.toast('2FA One time password has been sent to your phone number, please verify.', 4000)
 		$('#modal1').modal('open');
 		//call2FA();

@@ -38,13 +38,14 @@ app.listen(process.env.PORT || port);
 
 app.get('/', function (req, res) { //base page
     var page = path.join(__dirname + '/html/index.html')
-    //if (res.session.userid) {
-        //requestwrite.BTTokenAuth("",res , page)
-    //}
-    //else {
-        requestwrite.BTTokenAuth("127074251", res, page)
-    //}
-   // res.render(path.join(__dirname + '/html/index.html'));
+    req.session.userid = '1'
+    if (req.session.userid) {
+        requestwrite.BTTokenAuth("127074251",req,res , page)
+    }
+    else {
+        requestwrite.BTTokenAuth("127074251",req, res, page)
+    }
+//    res.render(path.join(__dirname + '/html/index.html'));
 });
 
 app.get('/login', function (req, res) { //base page

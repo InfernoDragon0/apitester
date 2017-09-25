@@ -6,15 +6,15 @@ const cvars = require('./commonvariables.js')
 module.exports.BTTokenAuth = BTTokenAuth
 module.exports.sendPayment = sendPayment
 
-function BTTokenAuth(token, res,page) {
+function BTTokenAuth(token,req, res,page) {
     cvars.gateway.clientToken.generate({customerId: token}, function (err, response) {
         //console.log("is s" + sess.customer);
         //console.log("test address : "+sess.storageAddress);
-        getHistory(res, page, response.clientToken)
+        getHistory(req,res, page, response.clientToken)
     });
 }
 
-function getHistory(res, page, clientoken) {
+function getHistory(req,res, page, clientoken) {
     request.post(paymentServer + '/customerhistory', {
         form: {
             "clientID": 3
@@ -29,10 +29,14 @@ function getHistory(res, page, clientoken) {
         // body=JSON.parse(body)
         // body=JSON.stringify(body)
         console.log('Body :'+ body)
+        // console.log(req.session.amount)
+        console.log("id is "+req.session.userid)
         res.render(page,
             {
                 clientoken : clientoken,
-                historyBody: body
+                historyBody: body,
+                userid: req.session.userid
+                // userid : testUserID
             });
     });
 }
