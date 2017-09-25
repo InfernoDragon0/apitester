@@ -13,7 +13,7 @@ var fakeData = {
 }
 
 function retrieveUser() {
-	$.post(walletServer + "/retrieveuserid", { clientid: document.getElementById("username").value, function (data) {
+	$.post(walletServer + "/retrieveuserid", { clientid: document.getElementById("username").value}, function (data) {
 		if (data.includes("Invalid")) {
 		Materialize.toast('Error: ' + data, 4000)
 		}
@@ -23,9 +23,9 @@ function retrieveUser() {
 
 		//FAKE DATA REMOVE WHEN DONE
 		contactno = fakeData.contact_No;
-		Materialize.toast('2FA One time password has been sent to your phone number, please verify.', 4000)
-		$('#modal1').modal('open');
+		Materialize.toast('Retrieved user phone number', 4000)
 		//call2FA();
+		doLogin();
 	});
 }
 
