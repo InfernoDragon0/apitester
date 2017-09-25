@@ -66,6 +66,8 @@ app.post('/payment', function (req, res) { //base page
     requestwrite.sendPayment(req,res)
 });
 
+
+
 app.use(function (req, res, next) {
         res.status(404).send("this page does not exist!")
 });

@@ -9,10 +9,27 @@ function BTTokenAuth(token, res,page) {
     cvars.gateway.clientToken.generate({customerId: token}, function (err, response) {
         //console.log("is s" + sess.customer);
         //console.log("test address : "+sess.storageAddress);
+        getHistory(res, page, response.clientToken)
+    });
+}
+
+function getHistory(res, page, clientoken) {
+    request.post(paymentServer + '/customerhistory', {
+        form: {
+            "clientID": 123
+        }
+    }, function (error, response, body) {
+        if (error) {
+            console.log('error:', error); // Print the error if one occurred 
+            return;
+        }
+        console.log(response)
+        console.log(body)
         res.render(page,
-        {
-            clientoken : response.clientToken
-        });
+            {
+                clientoken : clientoken,
+                history: body
+            });
     });
 }
 
