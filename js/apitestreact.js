@@ -81,7 +81,7 @@ $(document).ready(function () {
 function writeHistory() {
   const DashboardRow = () => (
     <tbody>
-      {datajson.map((data, i) => (
+      {history.map((data, i) => (
         <tr key={i}>
           <td className="transactionid">{data.transactionId}</td>
           <td>{data.timestamp}</td>
@@ -99,7 +99,7 @@ function writeHistory() {
     <div>
       <br />
       <br />
-      <table class="bordered highlight responsive-table">
+      <table className="bordered highlight responsive-table">
         <thead>
           <tr>
             <th><i className="fa fa-info-circle"></i> Transaction ID </th>
