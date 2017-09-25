@@ -38,11 +38,12 @@ app.listen(process.env.PORT || port);
 
 app.get('/', function (req, res) { //base page
     var page = path.join(__dirname + '/html/index.html')
-    req.session.userid = '1'
+    //req.session.userid = '1'
     if (req.session.userid) {
         requestwrite.BTTokenAuth("127074251",req,res , page)
     }
     else {
+        req.session.userid = '0'
         requestwrite.BTTokenAuth("127074251",req, res, page)
     }
 //    res.render(path.join(__dirname + '/html/index.html'));
@@ -53,7 +54,7 @@ app.get('/login', function (req, res) { //base page
 });
 
 app.post('/loginok', function (req, res) { //base page
-    res.session.userid = req.body.userid
+    req.session.userid = req.body.userid
     res.send("Success login")
 });
 
@@ -66,8 +67,6 @@ app.post('/payment', function (req, res) { //base page
     //res.send("payment values are " + req.body.amount + " and " + req.body.nonce)
     requestwrite.sendPayment(req,res)
 });
-
-
 
 app.use(function (req, res, next) {
         res.status(404).send("this page does not exist!")

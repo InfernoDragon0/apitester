@@ -2,7 +2,8 @@ const self = "http://localhost:7575"
 const payserver = "http://localhost:5000"
 
 $('.modal').modal();
-$('#customerid').html('Your Customer ID is ' + userid)
+$('#customerid').html('Your Customer ID is ' + userid);
+getWalletAmount();
 
 function openTopupModal() {
     $('#topupmodal').modal('open');
@@ -32,7 +33,7 @@ function sendPayment() {
         var amount = $('#sendamount').val();
         var merchantid = $('#merchantid').val();
         var branchid = $('#branchid').val();
-        var clientid = 123
+        var clientid = userid
 
         if (amount == "" || merchantid == "" || branchid == "") {
             Materialize.toast("Please input an amount, merchantid and branchid", 4000)
@@ -40,19 +41,30 @@ function sendPayment() {
         }
 
         $.post(payserver + "/walletPay", { clientid: clientid, merchantid: merchantid, branchid: branchid, amount: amount }, function (data) {
-			if (data.includes("Invalid")) {
-			Materialize.toast('Error: ' + data, 4000)
+            if (data.includes("Invalid")) {
+                Materialize.toast('Error: ' + data, 4000)
             }
             else {
-			    Materialize.toast(data, 4000)
+                Materialize.toast(data, 4000)
             }
-		})
+        })
     }
     else {
         Materialize.toast('You did not confirm your payment.', 4000)
     }
 }
 
+function getWalletAmount() {
+    $.post(payserver + "/getwalletamount", { clientid: userid }, function (data) {
+        if (data.includes("No Data Available")) {
+            Materialize.toast('Error: ' + data, 4000)
+        }
+        else {
+            var jsondata = JSON.parse(data.replace(/&#34;/g, '"'))
+            $('#amountwallet').html("$" + jsondata.amount)
+        }
+    })
+}
 
 var button = document.querySelector('#topupbutton');
 braintree.dropin.create({
