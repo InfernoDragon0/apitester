@@ -28,10 +28,16 @@ function sendPayment() {
     var confirm = $('#confirm2').val();
 
     if (confirm == "confirm") {
+
         var amount = $('#sendamount').val();
         var merchantid = $('#merchantid').val();
         var branchid = $('#branchid').val();
         var clientid = 123
+
+        if (amount == "" || merchantid == "" || branchid == "") {
+            Materialize.toast("Please input an amount, merchantid and branchid", 4000)
+            return
+        }
 
         $.post(payserver + "/walletPay", { clientid: clientid, merchantid: merchantid, branchid: branchid, amount: amount }, function (data) {
 			if (data.includes("Invalid")) {
