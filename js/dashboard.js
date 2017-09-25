@@ -13,7 +13,7 @@ function openSpendModal() {
 }
 
 function topupAmount() {
-    var amount = document.getElementById('#topupamount')
+    var amount = $('#topupamount').val();
     if (amount == "") {
         Materialize.toast('Your amount cannot be empty.', 4000)
         return
@@ -24,21 +24,27 @@ function topupAmount() {
 
 }
 
-
-
 function sendPayment() {
-    var confirm = document.getElementById('confirm2')
+    var confirm = $('#confirm2').val();
 
     if (confirm == "confirm") {
+        var amount = $('#sendamount').val();
+        var merchantid = $('#merchantid').val();
+        var branchid = $('#branchid').val();
+        var clientid = 123
 
+        $.post(payserver + "/walletPay", { clientid: clientid, merchantid: merchantid, branchid: branchid, amount: amount }, function (data) {
+			if (data.includes("Invalid")) {
+			Materialize.toast('Error: ' + data, 4000)
+            }
+            else {
+			    Materialize.toast(data, 4000)
+            }
+		})
     }
     else {
-        Materialize.toast('You did not type confirm correctly.', 4000)
+        Materialize.toast('You did not confirm your payment.', 4000)
     }
-}
-
-function fetchToken() {
-
 }
 
 
@@ -71,7 +77,7 @@ braintree.dropin.create({
                 })
             }
             else {
-                Materialize.toast("Your did not confirm your payment", 4000)
+                Materialize.toast("You did not confirm your payment", 4000)
             }
         });
     });
