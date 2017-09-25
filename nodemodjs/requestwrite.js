@@ -24,8 +24,8 @@ function getHistory(res, page, clientoken) {
             console.log('error:', error); // Print the error if one occurred 
             return;
         }
-        console.log(body)
-        console.log(body)
+        // console.log(body)
+        // console.log(body)
         // body=JSON.parse(body)
         // body=JSON.stringify(body)
         console.log('Body :'+ body)

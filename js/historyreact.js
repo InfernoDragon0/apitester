@@ -2,6 +2,7 @@ writeHistory();
 
 function writeHistory() {
   historyBody = JSON.parse(historyBody.replace(/&#34;/g, '"'))
+  console.log(historyBody)
 
   const DashboardRow = () => (
     <tbody>
