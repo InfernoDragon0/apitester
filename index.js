@@ -7,6 +7,7 @@ const requestwrite = require("./nodemodjs/requestwrite.js")
 const express = require('express'); //express is good
 const app = express();
 const port = 7575;
+const request = require('request')
 
 app.engine('html', require('ejs').renderFile); //can use jsx also
 app.set('view engine', 'ejs');
@@ -36,15 +37,33 @@ app.listen(process.env.PORT || port);
 
 
 app.get('/', function (req, res) { //base page
-    res.render(path.join(__dirname + '/html/index.html'));
+    var page = path.join(__dirname + '/html/index.html')
+    //if (res.session.userid) {
+        //requestwrite.BTTokenAuth("",res , page)
+    //}
+    //else {
+        requestwrite.BTTokenAuth("127074251", res, page)
+    //}
+   // res.render(path.join(__dirname + '/html/index.html'));
 });
 
 app.get('/login', function (req, res) { //base page
     res.render(path.join(__dirname + '/html/login.html'));
 });
 
+app.post('/loginok', function (req, res) { //base page
+    res.session.userid = req.body.userid
+    res.send("Success login")
+});
+
 app.get('/register', function (req, res) { //base page
     res.render(path.join(__dirname + '/html/register.html'));
+});
+
+
+app.post('/payment', function (req, res) { //base page
+    //res.send("payment values are " + req.body.amount + " and " + req.body.nonce)
+    requestwrite.sendPayment()
 });
 
 app.use(function (req, res, next) {

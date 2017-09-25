@@ -1,4 +1,5 @@
 const walletServer = "http://localhost:5001"
+const self = "http://localhost:7575"
 var webAuth = new auth0.WebAuth({
 	domain: 'mushroom.auth0.com',
 	clientID: 'EtHOvCUbD2F6s46WjSx0inahQV673bq9'
@@ -55,6 +56,7 @@ function verify2FA() {
 		return
 	}
 
+	var userid = document.getElementById('username').value
 	webAuth.passwordlessVerify({
 		connection: 'sms',
 		phoneNumber: '+65' + contactno,
@@ -66,8 +68,13 @@ function verify2FA() {
 		Materialize.toast('Error authenticating: Wrong Pin?', 4000)
 			return;
 		}
+		
+		$.post(self + "/loginok", { userid: userid }, function (data) {
+			if (data.includes("Invalid")) {
+			Materialize.toast('Error: ' + data, 4000)
+			}
+		})
 		console.log(res);
-		// handle errors or continue
 	}
 	);
 }
