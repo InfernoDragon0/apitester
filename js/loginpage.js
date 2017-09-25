@@ -12,6 +12,23 @@ var fakeData = {
 	contact_No: 87777751
 }
 
+function retrieveUser() {
+	$.post(walletServer + "/retrieveuserid", { clientid: document.getElementById("username").value, function (data) {
+		if (data.includes("Invalid")) {
+		Materialize.toast('Error: ' + data, 4000)
+		}
+		else {
+			alert(data)
+		}
+
+		//FAKE DATA REMOVE WHEN DONE
+		contactno = fakeData.contact_No;
+		Materialize.toast('2FA One time password has been sent to your phone number, please verify.', 4000)
+		$('#modal1').modal('open');
+		//call2FA();
+	});
+}
+
 function doLogin() {
 	$.post(walletServer + "/authenticate", { user: document.getElementById("username").value, pin: document.getElementById("password").value }, function (data) {
 		if (data.includes("Invalid")) {
