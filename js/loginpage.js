@@ -1,9 +1,11 @@
-const walletServer = "http://localhost:5000"
+const walletServer = "https://nodepaymentmodule.herokuapp.com"
 const self = "http://localhost:7575"
 var webAuth = new auth0.WebAuth({
 	domain: 'mushroom.auth0.com',
 	clientID: 'EtHOvCUbD2F6s46WjSx0inahQV673bq9'
 });
+
+//id 6 caleb, id 7 is me
 var contactno = 0
 
 var fakeData = {
@@ -16,7 +18,7 @@ function retrieveUser() {
 	$.post(walletServer + "/retrieveuserid", { clientid: document.getElementById("username").value}, function (data) {
 		console.log(data)
 		//FAKE DATA REMOVE WHEN DONE
-		contactno = fakeData.contact_No;
+		contactno = data.mobile_number;
 		Materialize.toast('2FA One time password has been sent to your phone number, please verify.', 4000)
 		
 		//call2FA();
@@ -26,21 +28,21 @@ function retrieveUser() {
 
 function doLogin() {
 	Materialize.toast('2FA One time password has been sent to your phone number, please verify.', 4000)
-	call2FA();
-	// $.post(walletServer + "/authenticate", { user: document.getElementById("username").value, pin: document.getElementById("password").value }, function (data) {
-	// 	if (data.includes("Invalid")) {
-	// 		Materialize.toast('Error: ' + data, 4000)
-	// 	}
-	// 	else {
-	// 		alert("success, " + data)
-	// 	}
+	
+	$.post(self + "/loginok", { userid: document.getElementById("username").value, pin: document.getElementById("password").value }, function (data) {
+		if (data.includes("Invalid")) {
+			Materialize.toast('Error: ' + data, 4000)
+		}
+		else {
+			alert("success, " + data)
+		}
 
-	// 	//FAKE DATA REMOVE WHEN DONE
-	// 	contactno = fakeData.contact_No;
-	// 	Materialize.toast('2FA One time password has been sent to your phone number, please verify.', 4000)
-	// 	$('#modal1').modal('open');
-	// 	//call2FA();
-	// });
+		//FAKE DATA REMOVE WHEN DONE
+		//contactno = data.contact_No;
+		Materialize.toast('2FA One time password has been sent to your phone number, please verify.', 4000)
+		$('#modal1').modal('open');
+		call2FA();
+	});
 }
 
 function call2FA() {
@@ -76,18 +78,12 @@ function verify2FA() {
 		phoneNumber: '+65' + contactno,
 		verificationCode: document.getElementById('2FAcode').value,
 		response_type: "code",
-		redirect_uri: "http://localhost:7575/"
+		redirect_uri: "http://localhost:7575/index"
 	}, function (err, res) {
 		if (err) {
 		Materialize.toast('Error authenticating: Wrong Pin?', 4000)
 			return;
 		}
-		
-		$.post(self + "/loginok", { userid: userid }, function (data) {
-			if (data.includes("Invalid")) {
-			Materialize.toast('Error: ' + data, 4000)
-			}
-		})
 		console.log(res);
 	}
 	);

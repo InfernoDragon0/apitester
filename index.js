@@ -36,7 +36,7 @@ app.use(express.static(path.join(__dirname, '/fonts')));
 app.listen(process.env.PORT || port);
 
 
-app.get('/', function (req, res) { //base page
+app.get('/index', function (req, res) { //base page
     var page = path.join(__dirname + '/html/index.html')
     //req.session.userid = '1'
     if (req.session.userid) {
@@ -66,6 +66,9 @@ app.get('/register', function (req, res) { //base page
 app.post('/payment', function (req, res) { //base page
     //res.send("payment values are " + req.body.amount + " and " + req.body.nonce)
     requestwrite.sendPayment(req,res)
+});
+app.post('/test', function (req, res) { //base page
+    res.send("Success login")
 });
 
 app.use(function (req, res, next) {
