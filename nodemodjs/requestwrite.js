@@ -1,5 +1,6 @@
 const walletServer = 5001
-const paymentServer = 'https://nodepaymentmodule.herokuapp.com'
+// const paymentServer = 'https://nodepaymentmodule.herokuapp.com'
+const paymentServer = 'http://localhost:5000'
 const request = require('request')
 const cvars = require('./commonvariables.js')
 
@@ -64,13 +65,14 @@ function retrieveBTToken(req, res) {
     return new Promise((resolve, reject) => {
         request.post(paymentServer + '/find/customerBTToken', {
             form: {
-                "clientID": req.session.userid,
+                "clientid": req.session.userid
             }
         }, function (error, response, body) {
             if (error) {
                 console.log('error:', error); // Print the error if one occurred 
                 return;
             }
+            console.log("comeout")
             console.log(response)
             console.log(body)
             resolve(body.braintree_user_id)

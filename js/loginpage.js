@@ -85,6 +85,10 @@ function verify2FA() {
 			return;
 		}
 		console.log(res);
+	$.post(self + "/loginok", { userid: userid }, function (data) {
+			console.log(data)
+	})
+		
 	}
 	);
 }
