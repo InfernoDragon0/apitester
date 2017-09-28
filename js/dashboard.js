@@ -1,5 +1,5 @@
 const self = "http://localhost:7575"
-const payserver = "http://localhost:5000"
+const payserver = "https://nodepaymentmodule.herokuapp.com"
 
 $('.modal').modal();
 $('#customerid').html('Your Customer ID is ' + userid);
@@ -61,7 +61,9 @@ function getWalletAmount() {
         }
         else {
             var jsondata = JSON.parse(data.replace(/&#34;/g, '"'))
-            $('#amountwallet').html("$" + jsondata.amount)
+            $('#amountwallet').html("$" + jsondata.value)
+            $('#customerid').html('Your Customer ID is ' + userid + ' (' + jsondata.clientWalletID + ')');
+            
         }
     })
 }

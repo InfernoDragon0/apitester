@@ -1,6 +1,6 @@
 const walletServer = 5001
-// const paymentServer = 'https://nodepaymentmodule.herokuapp.com'
-const paymentServer = 'http://localhost:5000'
+const paymentServer = 'https://nodepaymentmodule.herokuapp.com'
+//const paymentServer = 'http://localhost:5000'
 const request = require('request')
 const cvars = require('./commonvariables.js')
 
@@ -19,7 +19,7 @@ function BTTokenAuth(token,req, res,page) {
 function getHistory(req,res, page, clientoken) {
     request.post(paymentServer + '/customerhistory', {
         form: {
-            "clientID": 3
+            "clientID": req.session.userid
         }
     }, function (error, response, body) {
         if (error) {
@@ -44,9 +44,10 @@ function getHistory(req,res, page, clientoken) {
 }
 
 function sendPayment(req, res) {
+    console.log("the id is " + req.session.userid)
     request.post(paymentServer + '/walletAdd', {
         form: {
-            "clientID": 12345,
+            "clientID": req.session.userid,
             "amount": req.body.amount,
             "nonce": req.body.nonce
         }
@@ -72,10 +73,8 @@ function retrieveBTToken(req, res) {
                 console.log('error:', error); // Print the error if one occurred 
                 return;
             }
-            console.log("comeout")
-            console.log(response)
             console.log(body)
-            resolve(body.braintree_user_id)
+            resolve(JSON.parse(body).braintree_user_id)
         });
     })
     

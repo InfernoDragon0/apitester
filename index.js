@@ -38,15 +38,13 @@ app.listen(process.env.PORT || port);
 
 app.get('/index', function (req, res) { //base page
     var page = path.join(__dirname + '/html/index.html')
-    //req.session.userid = '1'
     if (req.session.userid) {
         requestwrite.retrieveBTToken(req,res).then((value) => {
             console.log("value is " + value)
+            requestwrite.BTTokenAuth(value,req,res, page)
         })
-        requestwrite.BTTokenAuth("127074251",req,res , page)
     }
     else {
-        req.session.userid = '0'
         requestwrite.BTTokenAuth("127074251",req, res, page)
     }
 //    res.render(path.join(__dirname + '/html/index.html'));
@@ -58,13 +56,16 @@ app.get('/login', function (req, res) { //base page
 
 app.post('/loginok', function (req, res) { //base page
     req.session.userid = req.body.userid
-    res.send("Success login")
+    res.send("Success login , you are " + req.session.userid)
 });
 
 app.get('/register', function (req, res) { //base page
     res.render(path.join(__dirname + '/html/register.html'));
 });
 
+app.get("/", function (req, res) { //base page
+    res.redirect("/login");
+});
 
 app.post('/payment', function (req, res) { //base page
     //res.send("payment values are " + req.body.amount + " and " + req.body.nonce)

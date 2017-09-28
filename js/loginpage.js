@@ -19,7 +19,6 @@ function retrieveUser() {
 		console.log(data)
 		//FAKE DATA REMOVE WHEN DONE
 		contactno = data.mobile_number;
-		Materialize.toast('2FA One time password has been sent to your phone number, please verify.', 4000)
 		
 		//call2FA();
 		doLogin();
@@ -27,7 +26,6 @@ function retrieveUser() {
 }
 
 function doLogin() {
-	Materialize.toast('2FA One time password has been sent to your phone number, please verify.', 4000)
 	
 	$.post(self + "/loginok", { userid: document.getElementById("username").value, pin: document.getElementById("password").value }, function (data) {
 		if (data.includes("Invalid")) {
