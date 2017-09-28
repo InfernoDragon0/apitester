@@ -1,5 +1,5 @@
 const walletServer = 5001
-const paymentServer = 'http://localhost:5000'
+const paymentServer = 'https://nodepaymentmodule.herokuapp.com'
 const request = require('request')
 const cvars = require('./commonvariables.js')
 
