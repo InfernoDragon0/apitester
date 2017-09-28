@@ -5,6 +5,7 @@ const cvars = require('./commonvariables.js')
 
 module.exports.BTTokenAuth = BTTokenAuth
 module.exports.sendPayment = sendPayment
+module.exports.retrieveBTToken = retrieveBTToken
 
 function BTTokenAuth(token,req, res,page) {
     cvars.gateway.clientToken.generate({customerId: token}, function (err, response) {
@@ -56,4 +57,24 @@ function sendPayment(req, res) {
         console.log(response)
         res.send(body)
     });
+}
+
+
+function retrieveBTToken(req, res) {
+    return new Promise((resolve, reject) => {
+        request.post(paymentServer + '/find/customerBTToken', {
+            form: {
+                "clientID": req.session.userid,
+            }
+        }, function (error, response, body) {
+            if (error) {
+                console.log('error:', error); // Print the error if one occurred 
+                return;
+            }
+            console.log(response)
+            console.log(body)
+            resolve(body.braintree_user_id)
+        });
+    })
+    
 }

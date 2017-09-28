@@ -40,6 +40,9 @@ app.get('/index', function (req, res) { //base page
     var page = path.join(__dirname + '/html/index.html')
     //req.session.userid = '1'
     if (req.session.userid) {
+        requestwrite.retrieveBTToken.then((value) => {
+            console.log("value is " + value)
+        })
         requestwrite.BTTokenAuth("127074251",req,res , page)
     }
     else {
