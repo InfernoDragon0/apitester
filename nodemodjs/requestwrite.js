@@ -74,7 +74,7 @@ function retrieveBTToken(req, res) {
                 return;
             }
             console.log(body)
-            resolve(JSON.parse(body).braintree_user_id)
+            resolve(body)
         });
     })
     

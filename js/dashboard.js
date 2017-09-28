@@ -1,6 +1,7 @@
 const self = "http://localhost:7575"
 const payserver = "https://nodepaymentmodule.herokuapp.com"
 
+var currentval = 0
 $('.modal').modal();
 $('#customerid').html('Your Customer ID is ' + userid);
 getWalletAmount();
@@ -61,9 +62,10 @@ function getWalletAmount() {
         }
         else {
             var jsondata = JSON.parse(data.replace(/&#34;/g, '"'))
+            currentval = jsondata.value;
             $('#amountwallet').html("$" + jsondata.value)
             $('#customerid').html('Your Customer ID is ' + userid + ' (' + jsondata.clientWalletID + ')');
-            
+
         }
     })
 }
@@ -90,6 +92,25 @@ braintree.dropin.create({
                 $.post(self + "/payment", { nonce: payload.nonce, amount: amount }, function (data) {
                     if (data.includes("Invalid")) {
                         Materialize.toast('Error: ' + data, 4000)
+                    }
+                    else if (data.includes("successfully")) {
+                        var decimal_places = 2;
+                        var decimal_factor = decimal_places === 0 ? 1 : Math.pow(10, decimal_places);
+                        $('#amountwallet').prop('number',parseInt(currentval)).animateNumber({
+                            number: (parseInt(currentval) + parseInt(amount)) * decimal_factor,
+                            numberStep: function (now, tween) {
+                                var floored_number = Math.floor(now) / decimal_factor
+                                if (decimal_places > 0) {
+                                    // force decimal places even if they are 0
+                                    floored_number = floored_number.toFixed(decimal_places);
+                                }
+                                target = $(tween.elem);
+                                target.text('$' + floored_number);
+                                currentval = parseInt(currentval) + parseInt(amount)
+                            }
+                        },
+                            7000
+                        );
                     }
                     else {
                         Materialize.toast(data, 4000)
