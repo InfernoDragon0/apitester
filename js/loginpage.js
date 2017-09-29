@@ -1,5 +1,6 @@
 const walletServer = "https://nodepaymentmodule.herokuapp.com"
-const self = "http://localhost:7575"
+//const self = "http://localhost:7575"
+const self = "https://jeapi.herokuapp.com"
 var webAuth = new auth0.WebAuth({
 	domain: 'mushroom.auth0.com',
 	clientID: 'EtHOvCUbD2F6s46WjSx0inahQV673bq9'

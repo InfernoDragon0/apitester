@@ -1,4 +1,5 @@
-const self = "http://localhost:7575"
+//const self = "http://localhost:7575"
+const self = "https://jeapi.herokuapp.com"
 const payserver = "https://nodepaymentmodule.herokuapp.com"
 
 var currentval = 0
