@@ -77,7 +77,7 @@ function verify2FA() {
 		phoneNumber: '+65' + contactno,
 		verificationCode: document.getElementById('2FAcode').value,
 		response_type: "code",
-		redirect_uri: "http://localhost:7575/index"
+		redirect_uri: "https://jeapi.herokuapp.com/index"
 	}, function (err, res) {
 		if (err) {
 		Materialize.toast('Error authenticating: Wrong Pin?', 4000)
