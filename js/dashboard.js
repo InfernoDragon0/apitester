@@ -41,9 +41,23 @@ function sendPayment() {
             return
         }
 
-        $.post(payserver + "/walletPay", { clientid: clientid, merchantid: merchantid, branchid: branchid, amount: amount }, function (data) {
+        $.post(self + "/spend", { clientid: clientid, merchantid: merchantid, branchid: branchid, amount: amount }, function (data) {
             if (data.includes("Invalid")) {
                 Materialize.toast('Error: ' + data, 4000)
+            }
+            else if (data.includes("successful")) {
+                $('#amountwallet').prop('number', parseInt(currentval)).animateNumber({
+                    number: (parseInt(currentval) + parseInt(amount)),
+                    numberStep: function (now, tween) {
+                        var floored_number = Math.floor(now)
+                        target = $(tween.elem);
+                        target.text('$' + floored_number.toFixed(2));
+                        Materialize.toast(data, 4000)                        
+                    }
+                },
+                    7000
+                );
+                currentval = (parseInt(currentval) + parseInt(amount))
             }
             else {
                 Materialize.toast(data, 4000)
@@ -94,23 +108,18 @@ braintree.dropin.create({
                         Materialize.toast('Error: ' + data, 4000)
                     }
                     else if (data.includes("successfully")) {
-                        var decimal_places = 2;
-                        var decimal_factor = decimal_places === 0 ? 1 : Math.pow(10, decimal_places);
-                        $('#amountwallet').prop('number',parseInt(currentval)).animateNumber({
-                            number: (parseInt(currentval) + parseInt(amount)) * decimal_factor,
+                        $('#amountwallet').prop('number', parseInt(currentval)).animateNumber({
+                            number: (parseInt(currentval) + parseInt(amount)),
                             numberStep: function (now, tween) {
-                                var floored_number = Math.floor(now) / decimal_factor
-                                if (decimal_places > 0) {
-                                    // force decimal places even if they are 0
-                                    floored_number = floored_number.toFixed(decimal_places);
-                                }
+                                var floored_number = Math.floor(now)
                                 target = $(tween.elem);
-                                target.text('$' + floored_number);
-                                currentval = parseInt(currentval) + parseInt(amount)
+                                target.text('$' + floored_number.toFixed(2));
                             }
                         },
-                            7000
+                            4000
                         );
+                        currentval = (parseInt(currentval) + parseInt(amount))
+                        Materialize.toast(data, 4000)                        
                     }
                     else {
                         Materialize.toast(data, 4000)

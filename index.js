@@ -71,6 +71,12 @@ app.post('/payment', function (req, res) { //base page
     //res.send("payment values are " + req.body.amount + " and " + req.body.nonce)
     requestwrite.sendPayment(req,res)
 });
+
+app.post('/spend', function (req, res) { //base page
+    //res.send("payment values are " + req.body.amount + " and " + req.body.nonce)
+    requestwrite.spendMoney(req,res)
+});
+
 app.post('/test', function (req, res) { //base page
     res.send("Success login")
 });
