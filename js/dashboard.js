@@ -47,17 +47,18 @@ function sendPayment() {
             }
             else if (data.includes("successful")) {
                 $('#amountwallet').prop('number', parseInt(currentval)).animateNumber({
-                    number: (parseInt(currentval) + parseInt(amount)),
+                    number: (parseInt(currentval) - parseInt(amount)),
                     numberStep: function (now, tween) {
                         var floored_number = Math.floor(now)
                         target = $(tween.elem);
                         target.text('$' + floored_number.toFixed(2));
-                        Materialize.toast(data, 4000)                        
                     }
                 },
                     7000
                 );
-                currentval = (parseInt(currentval) + parseInt(amount))
+                currentval = (parseInt(currentval) - parseInt(amount))
+                Materialize.toast(data, 4000)                        
+                
             }
             else {
                 Materialize.toast(data, 4000)
