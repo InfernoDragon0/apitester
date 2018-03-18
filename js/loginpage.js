@@ -33,7 +33,7 @@ function doLogin() {
 			Materialize.toast('Error: ' + data, 4000)
 		}
 		else {
-			alert("success, " + data)
+			//alert("success, " + data)
 		}
 
 		//FAKE DATA REMOVE WHEN DONE
